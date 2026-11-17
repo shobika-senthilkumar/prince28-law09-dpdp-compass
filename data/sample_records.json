@@ -1,0 +1,47 @@
+[
+  {
+    "id": "001",
+    "title": "Digital Personal Data Protection Act, 2023",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/indiacode/handle/123456789/22037?view_type=browse",
+    "document_type": "Act",
+    "year": 2023,
+    "description": "Central legislation governing the processing of digital personal data and related rights and obligations."
+  },
+  {
+    "id": "002",
+    "title": "Digital Personal Data Protection Rules, 2025",
+    "source": "MeitY",
+    "source_url": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa?pageTitle=Digital-Personal-Data-Protection-Rules-2025",
+    "document_type": "Rules",
+    "year": 2025,
+    "description": "Final rules made under the Digital Personal Data Protection Act, 2023."
+  },
+  {
+    "id": "003",
+    "title": "DPDP Act Commencement Notification G.S.R. 843(E)",
+    "source": "Government of India",
+    "source_url": "https://upload.indiacode.nic.in/showfile?actid=AC_CEN_45_0_00003_2023-22_1763464807080&filename=c56ceae6c383460ca69577428d36828b.pdf&type=hindinotification",
+    "document_type": "Commencement Notification",
+    "year": 2025,
+    "description": "Notification dated 13 November 2025 appointing different commencement dates for provisions of the DPDP Act."
+  },
+  {
+    "id": "004",
+    "title": "Enforcement Timeline for the DPDP Act",
+    "source": "MeitY",
+    "source_url": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa?pageTitle=Digital-Personal-Data-Protection-Rules-2025",
+    "document_type": "Enforcement Timeline",
+    "year": 2025,
+    "description": "Official MeitY material describing the phased enforcement timeline for the DPDP framework."
+  },
+  {
+    "id": "005",
+    "title": "Establishment of the Data Protection Board of India",
+    "source": "MeitY",
+    "source_url": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa?pageTitle=Digital-Personal-Data-Protection-Rules-2025",
+    "document_type": "Government Notification",
+    "year": 2025,
+    "description": "Official MeitY material concerning the establishment of the Data Protection Board of India under the DPDP framework."
+  }
+]
