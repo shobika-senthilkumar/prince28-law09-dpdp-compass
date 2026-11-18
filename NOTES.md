@@ -1,4 +1,3 @@
-@"
 # Day 3 Notes — PostgreSQL Integration
 
 ## 1. Database
@@ -10,9 +9,10 @@ environment variable. The real `.env` file is not committed to GitHub.
 
 ## 2. Schema
 
-The main database table is:
+The main database tables are:
 
 - `documents`
+- `pages`
 
 Each document contains:
 
@@ -21,29 +21,44 @@ Each document contains:
 - `title`
 - `source`
 - `source_url`
-- `document_type`
+- `doc_type`
 - `year`
 - `description`
-- `metadata`
+- `licence`
+- `published_on`
 - `sha256`
+- `metadata`
 - `created_at`
 - `updated_at`
 
 The `external_id` column is unique and is used to identify each
 DPDP Compass source record.
 
-The `metadata` JSONB column is reserved for future structured legal
-metadata such as section/rule references, commencement dates, and
-draft/final status.
+The `metadata` JSONB column stores filterable structured metadata such as:
+
+- `source`
+- `year`
+- `document_type`
+
+The `pages` table stores page-level source content using:
+
+- `doc_id`
+- `page_no`
+- `text`
+
+Each document can have multiple pages, and `(doc_id, page_no)` is unique.
 
 ## 3. Migration
 
 Alembic is used for database migrations.
 
-The initial migration creates the `documents` table and the SHA-256
-index.
+The migrations create the `documents` and `pages` tables and add the
+required indexes.
 
-Migration applied successfully with:
+Migration verification:
 
 ```text
 uv run alembic upgrade head
+uv run alembic downgrade -1
+uv run alembic upgrade head
+uv run alembic check
