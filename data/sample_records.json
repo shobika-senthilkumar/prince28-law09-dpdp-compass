@@ -43,5 +43,140 @@
     "document_type": "Government Notification",
     "year": 2025,
     "description": "Official MeitY material concerning the establishment of the Data Protection Board of India under the DPDP framework."
+  },
+  {
+    "id": "006",
+    "title": "DPDP Act Section 1 - Short Title and Commencement",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Section covering the short title and commencement mechanism, including the possibility of different commencement dates for different provisions."
+  },
+  {
+    "id": "007",
+    "title": "DPDP Act Section 5 - Notice",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision concerning notice to the Data Principal regarding processing of personal data."
+  },
+  {
+    "id": "008",
+    "title": "DPDP Act Section 6 - Consent",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision governing consent for processing personal data and related requirements."
+  },
+  {
+    "id": "009",
+    "title": "DPDP Act Section 8 - General Obligations of Data Fiduciary",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision describing general obligations imposed on Data Fiduciaries."
+  },
+  {
+    "id": "010",
+    "title": "DPDP Act Section 9 - Processing of Personal Data of Children",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision addressing processing of personal data relating to children."
+  },
+  {
+    "id": "011",
+    "title": "DPDP Act Section 10 - Additional Obligations of Significant Data Fiduciary",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision concerning additional obligations applicable to Significant Data Fiduciaries."
+  },
+  {
+    "id": "012",
+    "title": "DPDP Act Section 11 - Right to Access Information",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision describing the Data Principal's right to access information about personal data."
+  },
+  {
+    "id": "013",
+    "title": "DPDP Act Section 12 - Right to Correction and Erasure",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision concerning the Data Principal's rights relating to correction and erasure of personal data."
+  },
+  {
+    "id": "014",
+    "title": "DPDP Act Section 13 - Right of Grievance Redressal",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision concerning the Data Principal's right to grievance redressal."
+  },
+  {
+    "id": "015",
+    "title": "DPDP Act Section 18 - Establishment of Data Protection Board",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision establishing the statutory framework for the Data Protection Board of India."
+  },
+  {
+    "id": "016",
+    "title": "DPDP Act Section 27 - Power to Make Rules",
+    "source": "India Code",
+    "source_url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+    "document_type": "Act Section",
+    "year": 2023,
+    "description": "Provision dealing with the Central Government's power to make rules under the Act."
+  },
+  {
+    "id": "017",
+    "title": "Draft Digital Personal Data Protection Rules, 2025",
+    "source": "MeitY",
+    "source_url": "https://www.meity.gov.in/static/uploads/2025/02/f8a8e97a91091543fe19139cac7514a1.pdf",
+    "document_type": "Draft Rules",
+    "year": 2025,
+    "description": "January 2025 draft rules published for public consultation before the final DPDP Rules were notified."
+  },
+  {
+    "id": "018",
+    "title": "DPDP Rules 2025 - Notice Requirements",
+    "source": "MeitY",
+    "source_url": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa?pageTitle=Digital-Personal-Data-Protection-Rules-2025",
+    "document_type": "Final Rule Topic",
+    "year": 2025,
+    "description": "Official final Rules material relevant to notice requirements and information provided to Data Principals."
+  },
+  {
+    "id": "019",
+    "title": "DPDP Rules 2025 - Consent and Children's Data",
+    "source": "MeitY",
+    "source_url": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa?pageTitle=Digital-Personal-Data-Protection-Rules-2025",
+    "document_type": "Final Rule Topic",
+    "year": 2025,
+    "description": "Official final Rules material relevant to consent mechanisms and processing of children's personal data."
+  },
+  {
+    "id": "020",
+    "title": "DPDP Rules 2025 - Personal Data Breach Intimation",
+    "source": "MeitY",
+    "source_url": "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa?pageTitle=Digital-Personal-Data-Protection-Rules-2025",
+    "document_type": "Final Rule Topic",
+    "year": 2025,
+    "description": "Official final Rules material relevant to personal data breach intimation and related compliance requirements."
   }
 ]
