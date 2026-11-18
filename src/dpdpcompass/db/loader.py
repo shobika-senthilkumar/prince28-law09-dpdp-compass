@@ -21,6 +21,15 @@ def calculate_sha256(record: dict[str, Any]) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def build_metadata(record: dict[str, Any]) -> dict[str, Any]:
+    """Build filterable JSONB metadata from a source record."""
+    return {
+        "source": record.get("source"),
+        "year": record.get("year"),
+        "document_type": record.get("document_type"),
+    }
+
+
 def load_documents(
     session: Session,
     data_file: Path,
@@ -38,7 +47,13 @@ def load_documents(
         external_id = str(record["id"])
         record_hash = calculate_sha256(record)
 
-        existing = session.scalar(select(Document).where(Document.external_id == external_id))
+        existing = session.scalar(
+            select(Document).where(
+                Document.external_id == external_id,
+            )
+        )
+
+        metadata = build_metadata(record)
 
         if existing is None:
             session.add(
@@ -50,20 +65,21 @@ def load_documents(
                     document_type=record["document_type"],
                     year=record["year"],
                     description=record["description"],
-                    document_metadata={},
+                    document_metadata=metadata,
                     sha256=record_hash,
                 )
             )
             changed_count += 1
             continue
 
-        if existing.sha256 != record_hash:
+        if existing.sha256 != record_hash or existing.document_metadata != metadata:
             existing.title = record["title"]
             existing.source = record["source"]
             existing.source_url = record["source_url"]
             existing.document_type = record["document_type"]
             existing.year = record["year"]
             existing.description = record["description"]
+            existing.document_metadata = metadata
             existing.sha256 = record_hash
             changed_count += 1
 
