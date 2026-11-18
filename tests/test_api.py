@@ -39,3 +39,10 @@ def test_invalid_limit(client):
     response = client.get("/v1/documents?limit=0")
 
     assert response.status_code == 422
+
+
+def test_get_missing_document(client):
+    response = client.get("/v1/documents/999")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Document '999' was not found."
