@@ -1,5 +1,7 @@
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 
 from dpdpcompass.db.session import engine
 
@@ -13,13 +15,29 @@ def health() -> dict[str, str]:
 
 
 @router.get("/ready")
-def ready() -> dict[str, object]:
+def ready() -> JSONResponse:
     """Readiness check based on the PostgreSQL database."""
-    with engine.connect() as connection:
-        connection.execute(text("SELECT 1"))
-        records = connection.execute(text("SELECT COUNT(*) FROM documents")).scalar_one()
+    try:
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
 
-    return {
-        "status": "ready",
-        "records": records,
-    }
+        return JSONResponse(
+            status_code=200,
+            content={
+                "status": "ready",
+                "checks": {
+                    "database": True,
+                },
+            },
+        )
+
+    except SQLAlchemyError:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "not_ready",
+                "checks": {
+                    "database": False,
+                },
+            },
+        )

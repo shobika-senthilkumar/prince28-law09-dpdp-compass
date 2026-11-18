@@ -14,6 +14,7 @@ The main database tables are:
 - `documents`
 - `pages`
 
+
 Each document contains:
 
 - `id`

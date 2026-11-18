@@ -10,7 +10,7 @@ def test_ready(client):
 
     assert response.status_code == 200
     assert response.json()["status"] == "ready"
-    assert response.json()["records"] == 20
+    assert response.json()["checks"]["database"] is True
 
 
 def test_list_documents(client):
@@ -78,3 +78,59 @@ def test_get_missing_document(client):
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Document '999' was not found."
+
+
+def test_search_documents(client):
+    response = client.get("/v1/documents?q=Digital%20Personal%20Data")
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0
+    assert any("Digital Personal Data" in document["title"] for document in documents)
+
+
+def test_invalid_metadata_filter(client):
+    response = client.get("/v1/documents?invalid_filter=test")
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid metadata filter: 'invalid_filter'"
+
+
+def test_direct_source_metadata_filter(client):
+    response = client.get("/v1/documents?source=India%20Code")
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0
+    assert all(document["metadata"]["source"] == "India Code" for document in documents)
+
+
+def test_direct_year_metadata_filter(client):
+    response = client.get("/v1/documents?year=2023")
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0
+    assert all(document["metadata"]["year"] == 2023 for document in documents)
+
+
+def test_direct_document_type_metadata_filter(client):
+    response = client.get("/v1/documents?document_type=Act")
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0
+    assert all(document["metadata"]["document_type"] == "Act" for document in documents)
+
+
+def test_search_documents_by_description(client):
+    response = client.get("/v1/documents?q=personal%20data")
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0

@@ -1,6 +1,6 @@
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
 
 from dpdpcompass.db.models import Document
@@ -15,13 +15,27 @@ class DocumentRepository:
     def all(
         self,
         limit: int = 20,
+        q: str | None = None,
         metadata_filters: dict[str, Any] | None = None,
     ) -> list[dict]:
-        """Return documents with optional JSONB metadata filters."""
-        statement = select(Document).order_by(Document.id).limit(limit)
+        """Return documents with optional search and metadata filters."""
+        statement = select(Document)
+
+        if q:
+            search = f"%{q}%"
+            statement = statement.where(
+                or_(
+                    Document.title.ilike(search),
+                    Document.description.ilike(search),
+                    Document.source.ilike(search),
+                    Document.document_type.ilike(search),
+                )
+            )
 
         if metadata_filters:
             statement = statement.where(Document.document_metadata.contains(metadata_filters))
+
+        statement = statement.order_by(Document.id).limit(limit)
 
         documents = self.session.scalars(statement).all()
 
