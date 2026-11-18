@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from sqlalchemy import text
 
-from dpdpcompass.api.deps import get_store
-from dpdpcompass.store import RecordStore
+from dpdpcompass.db.session import engine
 
 router = APIRouter()
 
@@ -13,11 +13,13 @@ def health() -> dict[str, str]:
 
 
 @router.get("/ready")
-def ready(
-    store: RecordStore = Depends(get_store),  # noqa: B008
-) -> dict[str, object]:
-    """Readiness check based on the loaded record store."""
+def ready() -> dict[str, object]:
+    """Readiness check based on the PostgreSQL database."""
+    with engine.connect() as connection:
+        connection.execute(text("SELECT 1"))
+        records = connection.execute(text("SELECT COUNT(*) FROM documents")).scalar_one()
+
     return {
         "status": "ready",
-        "records": store.count,
+        "records": records,
     }

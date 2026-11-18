@@ -10,7 +10,7 @@ def test_ready(client):
 
     assert response.status_code == 200
     assert response.json()["status"] == "ready"
-    assert response.json()["records"] == 5
+    assert response.json()["records"] == 20
 
 
 def test_list_documents(client):
