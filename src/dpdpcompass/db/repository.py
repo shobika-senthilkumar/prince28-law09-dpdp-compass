@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -10,9 +12,17 @@ class DocumentRepository:
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def all(self, limit: int = 20) -> list[dict]:
-        """Return documents ordered by their database ID."""
+    def all(
+        self,
+        limit: int = 20,
+        metadata_filters: dict[str, Any] | None = None,
+    ) -> list[dict]:
+        """Return documents with optional JSONB metadata filters."""
         statement = select(Document).order_by(Document.id).limit(limit)
+
+        if metadata_filters:
+            statement = statement.where(Document.document_metadata.contains(metadata_filters))
+
         documents = self.session.scalars(statement).all()
 
         return [self._to_dict(document) for document in documents]
@@ -38,4 +48,5 @@ class DocumentRepository:
             "document_type": document.document_type,
             "year": document.year,
             "description": document.description,
+            "metadata": document.document_metadata,
         }

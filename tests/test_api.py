@@ -27,6 +27,38 @@ def test_get_document(client):
     assert response.json()["title"] == "Digital Personal Data Protection Act, 2023"
 
 
+def test_filter_documents_by_source(client):
+    response = client.get(
+        "/v1/documents?metadata_source=India%20Code",
+    )
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0
+    assert all(document["metadata"]["source"] == "India Code" for document in documents)
+
+
+def test_filter_documents_by_year(client):
+    response = client.get("/v1/documents?metadata_year=2023")
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0
+    assert all(document["metadata"]["year"] == 2023 for document in documents)
+
+
+def test_filter_documents_by_document_type(client):
+    response = client.get("/v1/documents?metadata_document_type=Act")
+
+    assert response.status_code == 200
+    documents = response.json()
+
+    assert len(documents) > 0
+    assert all(document["metadata"]["document_type"] == "Act" for document in documents)
+
+
 def test_document_not_found(client):
     response = client.get("/v1/documents/999")
 
