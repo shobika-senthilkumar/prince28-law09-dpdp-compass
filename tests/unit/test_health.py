@@ -50,6 +50,20 @@ def test_list_documents_search(fake_repo):
         app.dependency_overrides.clear()
 
 
+def test_list_documents_search_no_result(fake_repo):
+    app.dependency_overrides[get_document_repository] = lambda: fake_repo
+
+    try:
+        client = TestClient(app)
+
+        response = client.get("/v1/documents?q=nonexistent")
+
+        assert response.status_code == 200
+        assert response.json() == []
+    finally:
+        app.dependency_overrides.clear()
+
+
 def test_list_documents_metadata_filter(fake_repo):
     app.dependency_overrides[get_document_repository] = lambda: fake_repo
 
@@ -64,6 +78,24 @@ def test_list_documents_metadata_filter(fake_repo):
 
         assert len(documents) == 1
         assert documents[0]["year"] == 2023
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_list_documents_multiple_metadata_filters(fake_repo):
+    app.dependency_overrides[get_document_repository] = lambda: fake_repo
+
+    try:
+        client = TestClient(app)
+
+        response = client.get("/v1/documents?year=2023&source=India%20Code")
+
+        assert response.status_code == 200
+
+        documents = response.json()
+
+        assert len(documents) == 1
+        assert documents[0]["title"] == "DPDP Act 2023"
     finally:
         app.dependency_overrides.clear()
 
@@ -94,5 +126,18 @@ def test_list_documents_limit(fake_repo):
         documents = response.json()
 
         assert len(documents) == 1
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_list_documents_invalid_limit(fake_repo):
+    app.dependency_overrides[get_document_repository] = lambda: fake_repo
+
+    try:
+        client = TestClient(app)
+
+        response = client.get("/v1/documents?limit=0")
+
+        assert response.status_code == 422
     finally:
         app.dependency_overrides.clear()
