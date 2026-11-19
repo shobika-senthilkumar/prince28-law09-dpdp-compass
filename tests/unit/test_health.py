@@ -79,3 +79,20 @@ def test_list_documents_invalid_filter(fake_repo):
         assert response.status_code == 400
     finally:
         app.dependency_overrides.clear()
+
+
+def test_list_documents_limit(fake_repo):
+    app.dependency_overrides[get_document_repository] = lambda: fake_repo
+
+    try:
+        client = TestClient(app)
+
+        response = client.get("/v1/documents?limit=1")
+
+        assert response.status_code == 200
+
+        documents = response.json()
+
+        assert len(documents) == 1
+    finally:
+        app.dependency_overrides.clear()
