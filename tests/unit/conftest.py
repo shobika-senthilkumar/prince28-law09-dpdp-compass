@@ -46,6 +46,13 @@ class FakeRepo:
 
         return documents
 
+    def get(self, external_id):
+        for document in self.documents:
+            if document["id"] == external_id:
+                return document
+
+        return None
+
 
 @pytest.fixture
 def fake_repo():
