@@ -1,15 +1,8 @@
-
 # DPDP Compass
 
-AI-powered compliance guidance for India's Digital Personal Data Protection (DPDP) Act 2023 and DPDP Rules 2025.
+Practical compliance guidance for Indian startups navigating the Digital Personal Data Protection Act 2023 and the DPDP Rules 2025.
 
-## Problem
-
-Indian startups need to understand which data-protection duties apply to them, what requirements they must satisfy, and when those duties become legally enforceable.
-
-DPDP Compass helps founders and developers answer these questions using authoritative Indian legal sources.
-
-## Target User
+## Who It Is For
 
 Founder-developers of small and growing Indian startups handling personal data, especially teams that need practical compliance guidance without having a dedicated legal team.
 
@@ -51,3 +44,42 @@ src/dpdpcompass/
 docs/
 data/
 tests/
+```
+
+## Run locally in one command
+
+### Using Docker Compose
+
+```bash
+docker compose up --build -d
+```
+
+The stack starts the PostgreSQL database, Redis, migrations/seed job, and FastAPI API.
+
+### API
+
+- API: `http://localhost:8000`
+- Swagger UI: `http://localhost:8000/docs`
+- Liveness: `http://localhost:8000/health`
+- Readiness: `http://localhost:8000/ready`
+
+### Development tasks
+
+```bash
+uv run poe dev
+uv run poe test
+uv run poe test-integration
+uv run poe cov
+uv run poe lint
+uv run poe migrate
+uv run poe seed
+```
+
+### Test coverage
+
+The unit test suite runs without Docker. Integration tests require the PostgreSQL service from Docker Compose.
+
+```bash
+uv run poe test
+uv run poe cov
+```
