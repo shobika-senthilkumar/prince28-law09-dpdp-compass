@@ -1,65 +1,146 @@
-# Day 3 Notes — PostgreSQL Integration
+@'
 
-## 1. Database
+# Day 4 Notes — Docker, Compose, Tests, and Quality
 
-DPDP Compass now uses PostgreSQL through SQLAlchemy.
+## 1. Docker setup
 
-The database connection is configured using the `DATABASE_URL`
-environment variable. The real `.env` file is not committed to GitHub.
+Implemented the Day 4 containerization setup:
 
-## 2. Schema
+- Multi-stage Dockerfile
+- Python 3.12 slim base image
+- Non-root `app` user
+- `.dockerignore`
+- Runtime configuration through environment variables
+- Docker Compose configuration for PostgreSQL, Redis, migrations, and API
 
-The main database tables are:
+Docker runtime validation is currently pending because Docker Desktop is unavailable on the development machine.
 
-- `documents`
-- `pages`
+## 2. Docker Compose
 
+The Compose stack contains:
 
-Each document contains:
+- `db` — PostgreSQL/pgvector
+- `redis` — Redis
+- `migrate` — database migrations and idempotent data loading
+- `api` — FastAPI application
 
-- `id`
-- `external_id`
-- `title`
-- `source`
-- `source_url`
-- `doc_type`
-- `year`
-- `description`
-- `licence`
-- `published_on`
-- `sha256`
-- `metadata`
-- `created_at`
-- `updated_at`
+Healthchecks and `depends_on` conditions are configured so services wait for required dependencies.
 
-The `external_id` column is unique and is used to identify each
-DPDP Compass source record.
+The following runtime evidence is pending:
 
-The `metadata` JSONB column stores filterable structured metadata such as:
+- `docker compose up --build`
+- Compose service health verification
+- `/ready` recovery after stopping and restarting PostgreSQL
+- Docker image size verification
+- clean-clone Docker validation
 
-- `source`
-- `year`
-- `document_type`
+## 3. Test suite
 
-The `pages` table stores page-level source content using:
+Unit tests:
 
-- `doc_id`
-- `page_no`
-- `text`
+24 passed
 
-Each document can have multiple pages, and `(doc_id, page_no)` is unique.
+Integration tests:
 
-## 3. Migration
+7 passed
 
-Alembic is used for database migrations.
+Combined test execution:
 
-The migrations create the `documents` and `pages` tables and add the
-required indexes.
+34 passed
 
-Migration verification:
+The integration suite contains seven API integration tests covering:
 
-```text
-uv run alembic upgrade head
-uv run alembic downgrade -1
-uv run alembic upgrade head
-uv run alembic check
+- Health endpoint
+- Document listing
+- Search
+- Source filtering
+- Year filtering
+- Document-type filtering
+- Individual document retrieval
+
+## 4. Coverage
+
+Coverage was executed with:
+
+`uv run poe cov`
+
+Result:
+
+34 passed
+
+TOTAL: 243 statements, 31 missed, 32 branches, 6 partial
+
+87% overall coverage
+
+## 5. Code quality
+
+Ruff validation:
+
+`uv run poe lint`
+
+Result:
+
+- ruff check: All checks passed
+- ruff format: 39 files already formatted
+
+## 6. Task runner
+
+Poe tasks are configured for:
+
+- development server
+- linting
+- unit tests
+- coverage
+- migrations
+- seed/loading
+- integration tests
+
+The Makefile contains:
+
+- dev
+- test
+- test-integration
+- cov
+- lint
+- up
+- down
+- logs
+- reset
+
+GNU Make is not installed on the Windows development machine, so Makefile execution itself has not been validated locally.
+
+## 7. Docker-dependent evidence
+
+The following items are intentionally marked as pending rather than reported as completed:
+
+- Docker image build
+- Image size under 400 MB
+- `docker compose up --build -d`
+- PostgreSQL/Redis health status
+- migration container completion
+- API container health
+- `/ready` 503 when database is stopped
+- `/ready` recovery after database restart
+- Docker clean-clone validation
+
+These require a functioning Docker/virtualization environment.
+
+## 8. Day 4 status
+
+Completed without Docker:
+
+- Dockerfile
+- `.dockerignore`
+- Docker Compose configuration
+- Unit test suite
+- Integration test suite
+- Coverage configuration
+- pytest-asyncio
+- Poe task runner
+- Makefile targets
+- README updates
+- Ruff lint and formatting
+- Pre-commit configuration
+
+Docker runtime validation remains pending.
+'@ | Add-Content NOTES.md

@@ -1,4 +1,4 @@
-.PHONY: dev test test-integration cov lint up
+.PHONY: dev test test-integration cov lint up down logs reset
 
 dev:
 	uv run uvicorn dpdpcompass.api.main:create_app --factory --reload
@@ -17,3 +17,12 @@ lint:
 
 up:
 	docker compose up --build -d
+
+down:
+	docker compose down
+
+logs:
+	docker compose logs -f
+
+reset:
+	docker compose down -v
