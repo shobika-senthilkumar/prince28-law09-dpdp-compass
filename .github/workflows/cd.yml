@@ -1,0 +1,87 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "SHA to deploy for rollback"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: deploy
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+      url: ${{ vars.LIVE_URL }}
+
+    steps:
+      - name: Determine SHA
+        id: sha
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "sha=${{ inputs.sha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.sha.outputs.sha }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.11.32"
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --locked
+
+      - name: Run migrations
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          APP_ENV: production
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: uv run alembic upgrade head
+
+      - name: Set image name
+        id: image
+        shell: bash
+        run: |
+          echo "image=ghcr.io/${GITHUB_REPOSITORY,,}:sha-${{ steps.sha.outputs.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy exact image to Render
+        shell: bash
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          IMAGE: ${{ steps.image.outputs.image }}
+        run: |
+          IMG_URL=$(python -c "import urllib.parse; print(urllib.parse.quote('${IMAGE}', safe=''))")
+          curl --fail --show-error --silent \
+            -X POST \
+            "${RENDER_DEPLOY_HOOK}&imgURL=${IMG_URL}"
+
+      - name: Smoke test the live URL
+        env:
+          LIVE_URL: ${{ vars.LIVE_URL }}
+        run: |
+          uv run python scripts/smoke.py "$LIVE_URL"
