@@ -51,6 +51,9 @@ jobs:
       - name: Sync dependencies
         run: uv sync --locked
 
+      - name: Run database migrations
+        run: uv run poe migrate
+
       - name: Lint
         run: uv run poe lint
 
