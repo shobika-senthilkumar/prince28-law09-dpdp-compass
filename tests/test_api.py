@@ -15,25 +15,30 @@ def test_health():
 
 
 def test_ready():
-    with patch("dpdpcompass.api.routes.health.engine") as mock_engine:
-        mock_connection = mock_engine.connect.return_value.__enter__.return_value
-        mock_connection.execute.return_value = None
+    with patch("dpdpcompass.api.routes.health.SessionLocal") as mock_session_local:
+        mock_session = mock_session_local.return_value.__enter__.return_value
 
         response = client.get("/ready")
 
         assert response.status_code == 200
-        assert response.json()["status"] == "ready"
-        assert response.json()["checks"]["database"] is True
+        assert response.json() == {
+            "status": "ready",
+            "checks": {"database": True},
+        }
+        mock_session.execute.assert_called_once()
 
 
 def test_ready_database_failure():
     from sqlalchemy.exc import SQLAlchemyError
 
-    with patch("dpdpcompass.api.routes.health.engine") as mock_engine:
-        mock_engine.connect.side_effect = SQLAlchemyError("Database unavailable")
+    with patch("dpdpcompass.api.routes.health.SessionLocal") as mock_session_local:
+        mock_session = mock_session_local.return_value.__enter__.return_value
+        mock_session.execute.side_effect = SQLAlchemyError("database unavailable")
 
         response = client.get("/ready")
 
         assert response.status_code == 503
-        assert response.json()["status"] == "not_ready"
-        assert response.json()["checks"]["database"] is False
+        assert response.json() == {
+            "status": "not_ready",
+            "checks": {"database": False},
+        }
