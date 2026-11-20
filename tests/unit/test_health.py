@@ -13,6 +13,15 @@ def test_health():
     assert response.json()["status"] == "ok"
 
 
+def test_health_includes_version():
+    client = TestClient(app)
+
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json()["version"] == "dev"
+
+
 def test_list_documents_with_fake_repository(fake_repo):
     app.dependency_overrides[get_document_repository] = lambda: fake_repo
 
