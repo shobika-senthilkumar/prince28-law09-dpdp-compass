@@ -1,10 +1,11 @@
+import argparse
 import hashlib
 import json
 from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
-from sqlalchemy import select
+from sqlalchemy import delete, select
 
 from dpdpcompass.config import Settings
 from dpdpcompass.db.models import Document
@@ -30,13 +31,16 @@ def build_metadata(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def load_documents(data_file: Path) -> None:
+def load_documents(data_file: Path, prune: bool = False) -> None:
     with data_file.open("r", encoding="utf-8") as file:
         records: list[dict[str, Any]] = json.load(file)
 
     inserted = 0
     updated = 0
     unchanged = 0
+    deleted = 0
+
+    current_ids = {str(record["id"]) for record in records}
 
     with SessionLocal() as session:
         for record in records:
@@ -76,13 +80,37 @@ def load_documents(data_file: Path) -> None:
             else:
                 unchanged += 1
 
+        if prune:
+            existing_ids = set(session.scalars(select(Document.external_id)).all())
+            stale_ids = existing_ids - current_ids
+
+            if stale_ids:
+                result = session.execute(
+                    delete(Document).where(Document.external_id.in_(stale_ids))
+                )
+                deleted = result.rowcount or 0
+
         session.commit()
 
-    print(f"records={len(records)} inserted={inserted} updated={updated} unchanged={unchanged}")
+    print(
+        f"records={len(records)} "
+        f"inserted={inserted} "
+        f"updated={updated} "
+        f"unchanged={unchanged} "
+        f"deleted={deleted}"
+    )
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--prune",
+        action="store_true",
+        help="Delete database documents missing from the JSON file.",
+    )
+    args = parser.parse_args()
+
     load_dotenv()
 
     data_file = Path(Settings().data_file)
-    load_documents(data_file)
+    load_documents(data_file, prune=args.prune)

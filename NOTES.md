@@ -85,3 +85,23 @@ Bitmap Heap Scan on documents  (cost=12.76..16.77 rows=1 width=4)
 
 This confirms that PostgreSQL uses `ix_documents_metadata_gin`
 for the JSONB containment filter.
+
+## 3. Loader verification
+
+Second run:
+
+```text
+records=20 inserted=0 updated=0 unchanged=20
+```
+
+D03 stretch -- --prune verification:
+
+```text
+records=19 inserted=0 updated=0 unchanged=19 deleted=1
+```
+
+Normal --prune run with no stale records:
+
+```text
+records=20 inserted=0 updated=0 unchanged=20 deleted=0
+```
