@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -5,6 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 
 def get_database_url() -> str:
@@ -21,6 +24,8 @@ engine = create_engine(
     get_database_url(),
     pool_pre_ping=True,
 )
+
+logger.info("Database pool at startup: %s", engine.pool.status())
 
 SessionLocal = sessionmaker(
     bind=engine,

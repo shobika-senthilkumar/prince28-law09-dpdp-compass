@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from pydantic import BaseModel
 
 from dpdpcompass.api.deps import get_document_repository
 from dpdpcompass.api.errors import not_found_response
@@ -6,26 +7,47 @@ from dpdpcompass.db.repository import DocumentRepository
 
 router = APIRouter(prefix="/v1/documents", tags=["documents"])
 
+
+class Record(BaseModel):
+    """API response model for a document record."""
+
+    id: str
+    title: str
+    source: str
+    source_url: str | None
+    document_type: str
+    year: int | None
+    description: str | None
+    metadata: dict
+
+
 RESERVED_QUERY_PARAMS = {
     "q",
     "limit",
+    "sort",
     "metadata_source",
     "metadata_year",
     "metadata_document_type",
 }
 
+ALLOWED_SORT_COLUMNS = {
+    "title",
+    "published_on",
+}
 
-@router.get("")
+
+@router.get("", response_model=list[Record])
 def list_documents(
     request: Request,
     limit: int = Query(default=20, ge=1, le=100),
     q: str | None = Query(default=None),
+    sort: str | None = Query(default=None),
     metadata_source: str | None = Query(default=None),
     metadata_year: int | None = Query(default=None),
     metadata_document_type: str | None = Query(default=None),
     repository: DocumentRepository = Depends(get_document_repository),  # noqa: B008
-) -> list[dict]:
-    """Return documents with search and metadata filters."""
+) -> list[Record]:
+    """Return documents with search, metadata filters, and sorting."""
     metadata_filters = {}
 
     if metadata_source is not None:
@@ -58,14 +80,32 @@ def list_documents(
 
         metadata_filters[key] = value
 
+    if sort is not None:
+        sort_column = sort.lstrip("-")
+
+        if sort_column not in ALLOWED_SORT_COLUMNS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid sort column: '{sort_column}'",
+            )
+
     return repository.all(
         limit=limit,
         q=q,
         metadata_filters=metadata_filters or None,
+        sort=sort,
     )
 
 
-@router.get("/{record_id}")
+@router.get("/stats")
+def document_stats(
+    repository: DocumentRepository = Depends(get_document_repository),  # noqa: B008
+) -> dict:
+    """Return document count and count per source."""
+    return repository.stats()
+
+
+@router.get("/{record_id}", response_model=Record)
 def get_document(
     record_id: str,
     request: Request,

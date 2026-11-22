@@ -47,6 +47,7 @@ def load_documents(data_file: Path, prune: bool = False) -> None:
             external_id = str(record["id"])
             record_hash = calculate_sha256(record)
             metadata = build_metadata(record)
+            metadata_source = record.get("source")
 
             existing = session.scalar(select(Document).where(Document.external_id == external_id))
 
@@ -61,6 +62,7 @@ def load_documents(data_file: Path, prune: bool = False) -> None:
                         year=record["year"],
                         description=record["description"],
                         document_metadata=metadata,
+                        metadata_source=metadata_source,
                         sha256=record_hash,
                     )
                 )
@@ -74,6 +76,7 @@ def load_documents(data_file: Path, prune: bool = False) -> None:
                 existing.year = record["year"]
                 existing.description = record["description"]
                 existing.document_metadata = metadata
+                existing.metadata_source = metadata_source
                 existing.sha256 = record_hash
                 updated += 1
 

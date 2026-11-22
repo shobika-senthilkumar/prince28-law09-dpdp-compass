@@ -1,69 +1,91 @@
-import os
-from logging.config import fileConfig
+from typing import Any
 
-from dotenv import load_dotenv
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import func, or_, select
+from sqlalchemy.orm import Session
 
-from alembic import context
-from dpdpcompass.db.base import Base
-
-load_dotenv()
-
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
-config = context.config
-
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
-
-# add your model's MetaData object here
-# for 'autogenerate' support
-target_metadata = Base.metadata
-
-database_url = os.getenv("DATABASE_URL")
-if not database_url:
-    raise RuntimeError("DATABASE_URL is not configured")
+from dpdpcompass.db.models import Document
 
 
-def run_migrations_offline() -> None:
-    """Run migrations in 'offline' mode."""
+class DocumentRepository:
+    """Read compliance documents from PostgreSQL."""
 
-    url = config.get_main_option("sqlalchemy.url")
-    context.configure(
-        url=url,
-        target_metadata=target_metadata,
-        literal_binds=True,
-        dialect_opts={"paramstyle": "named"},
-    )
+    def __init__(self, session: Session) -> None:
+        self.session = session
 
-    with context.begin_transaction():
-        context.run_migrations()
+    def all(
+        self,
+        limit: int = 20,
+        q: str | None = None,
+        metadata_filters: dict[str, Any] | None = None,
+        sort: str | None = None,
+    ) -> list[dict]:
+        """Return documents with optional search, metadata filters, and sorting."""
+        statement = select(Document)
 
+        if q:
+            search = f"%{q}%"
+            statement = statement.where(
+                or_(
+                    Document.title.ilike(search),
+                    Document.description.ilike(search),
+                    Document.source.ilike(search),
+                    Document.document_type.ilike(search),
+                )
+            )
 
-def run_migrations_online() -> None:
-    """Run migrations in 'online' mode."""
+        if metadata_filters:
+            statement = statement.where(Document.document_metadata.contains(metadata_filters))
 
-    config.set_main_option("sqlalchemy.url", database_url)
+        if sort:
+            descending = sort.startswith("-")
+            column_name = sort[1:] if descending else sort
+            column = getattr(Document, column_name)
 
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+            statement = statement.order_by(column.desc() if descending else column.asc())
+        else:
+            statement = statement.order_by(Document.id)
 
-    with connectable.connect() as connection:
-        context.configure(
-            connection=connection,
-            target_metadata=target_metadata,
-        )
+        statement = statement.limit(limit)
 
-        with context.begin_transaction():
-            context.run_migrations()
+        documents = self.session.scalars(statement).all()
 
+        return [self._to_dict(document) for document in documents]
 
-if context.is_offline_mode():
-    run_migrations_offline()
-else:
-    run_migrations_online()
+    def stats(self) -> dict:
+        """Return total document count and count per source."""
+        total = self.session.scalar(select(func.count()).select_from(Document))
+
+        source_counts = self.session.execute(
+            select(Document.source, func.count(Document.id))
+            .group_by(Document.source)
+            .order_by(Document.source)
+        ).all()
+
+        return {
+            "total": total or 0,
+            "by_source": {source: count for source, count in source_counts},
+        }
+
+    def get(self, external_id: str) -> dict | None:
+        """Return one document by its external ID."""
+        statement = select(Document).where(Document.external_id == external_id)
+        document = self.session.scalar(statement)
+
+        if document is None:
+            return None
+
+        return self._to_dict(document)
+
+    @staticmethod
+    def _to_dict(document: Document) -> dict:
+        """Convert a database document to the API response shape."""
+        return {
+            "id": document.external_id,
+            "title": document.title,
+            "source": document.source,
+            "source_url": document.source_url,
+            "document_type": document.document_type,
+            "year": document.year,
+            "description": document.description,
+            "metadata": document.document_metadata,
+        }
