@@ -60,3 +60,28 @@ uv run alembic upgrade head
 uv run alembic downgrade -1
 uv run alembic upgrade head
 uv run alembic check
+
+## 4. Index / EXPLAIN verification
+
+The `documents.metadata` JSONB field is indexed with the GIN index
+`ix_documents_metadata_gin` using `jsonb_path_ops`.
+
+The EXPLAIN verification was run with:
+
+uv run python scripts/explain.py
+
+The query:
+
+SELECT id
+FROM documents
+WHERE metadata @> '{"source": "India Code"}'::jsonb;
+
+produced:
+
+Bitmap Heap Scan on documents  (cost=12.76..16.77 rows=1 width=4)
+  Recheck Cond: (metadata @> '{"source": "India Code"}'::jsonb)
+  ->  Bitmap Index Scan on ix_documents_metadata_gin  (cost=0.00..12.76 rows=1 width=0)
+        Index Cond: (metadata @> '{"source": "India Code"}'::jsonb)
+
+This confirms that PostgreSQL uses `ix_documents_metadata_gin`
+for the JSONB containment filter.
