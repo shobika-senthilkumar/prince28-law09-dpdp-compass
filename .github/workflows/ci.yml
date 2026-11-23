@@ -54,6 +54,9 @@ jobs:
       - name: Run database migrations
         run: uv run poe migrate
 
+      - name: Seed database
+        run: uv run poe seed
+
       - name: Lint
         run: uv run poe lint
 
