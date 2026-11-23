@@ -52,7 +52,7 @@ jobs:
         run: uv sync --locked
 
       - name: Run database migrations
-        run: uv run alembic upgrade head --verbose
+        run: uv run alembic upgrade head
 
       - name: Verify Alembic revision
         run: uv run alembic current
