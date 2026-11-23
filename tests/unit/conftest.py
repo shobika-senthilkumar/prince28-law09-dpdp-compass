@@ -20,7 +20,7 @@ class FakeRepo:
             }
         ]
 
-    def all(self, limit=20, q=None, metadata_filters=None):
+    def all(self, limit=20, q=None, metadata_filters=None, sort=None):
         documents = self.documents[:limit]
 
         if q:

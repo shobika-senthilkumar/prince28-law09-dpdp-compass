@@ -52,7 +52,16 @@ jobs:
         run: uv sync --locked
 
       - name: Run database migrations
-        run: uv run poe migrate
+        run: uv run alembic upgrade head
+
+      - name: Verify Alembic revision
+        run: uv run alembic current
+
+      - name: Verify documents table
+        run: uv run python -c "from sqlalchemy import create_engine, text; import os; e=create_engine(os.environ['DATABASE_URL']); c=e.connect(); print('documents table:', c.execute(text(\"SELECT to_regclass('public.documents')\")).scalar()); print('tables:', c.execute(text(\"SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename\")).scalars().all())"
+
+      - name: Seed database
+        run: uv run poe seed
 
       - name: Lint
         run: uv run poe lint
