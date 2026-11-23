@@ -54,6 +54,12 @@ jobs:
       - name: Run database migrations
         run: uv run poe migrate
 
+      - name: Verify database schema
+        run: uv run alembic current
+
+      - name: Verify documents table
+        run: uv run python -c "from sqlalchemy import create_engine, text; import os; e=create_engine(os.environ['DATABASE_URL']); print(e.connect().execute(text(\"SELECT to_regclass('public.documents')\")).scalar())"
+
       - name: Seed database
         run: uv run poe seed
 
