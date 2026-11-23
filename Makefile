@@ -1,28 +1,28 @@
 .PHONY: dev test test-integration cov lint up down logs reset
 
 dev:
-	uv run uvicorn dpdpcompass.api.main:create_app --factory --reload
+        uv run uvicorn dpdpcompass.api.main:create_app --factory --reload
 
 test:
-	uv run pytest tests/unit
+        uv run pytest tests/unit
 
 test-integration:
-	uv run pytest tests/integration
+        uv run pytest tests/integration
 
 cov:
-	uv run pytest --cov
+        uv run pytest --cov --cov-report=term-missing
 
 lint:
-	uv run ruff check . && uv run ruff format --check .
+        uv run ruff check . && uv run ruff format --check .
 
 up:
-	docker compose up --build -d
+        docker compose up --build -d
 
 down:
-	docker compose down
+        docker compose down
 
 logs:
-	docker compose logs -f
+        docker compose logs -f
 
 reset:
-	docker compose down -v
+        docker compose down -v
