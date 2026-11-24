@@ -229,3 +229,4 @@ TOTAL 282 stmts, 38 miss, 40 branch, 8 partial, 85%
 Docker runtime testing remains pending because Docker Desktop is not available locally.
 
 The Dockerfile, Docker Compose configuration, \`.dockerignore\`, Makefile, unit tests, integration tests, and coverage tasks are present in the repository.
+- Stretch: Docker image history showed the largest application layer is 94.5 MB from COPY --chown=app:app /app/.venv /app/.venv, because it contains the installed runtime Python dependencies.
