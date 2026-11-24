@@ -230,3 +230,78 @@ Docker runtime testing remains pending because Docker Desktop is not available l
 
 The Dockerfile, Docker Compose configuration, \`.dockerignore\`, Makefile, unit tests, integration tests, and coverage tasks are present in the repository.
 - Stretch: Docker image history showed the largest application layer is 94.5 MB from COPY --chown=app:app /app/.venv /app/.venv, because it contains the installed runtime Python dependencies.
+
+## D05 - CI/CD and going live
+
+- Live URL: https://dpdp-compass.onrender.com
+- CI run for PR #10: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45345476577
+- First automatic deployment (CD #8): https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45345986371
+- Merge: 12:39:16 PM IST; smoke test passed: 12:41:18 PM IST; lead time: 2 minutes 2 seconds.
+
+### Smoke test output
+
+```text
+ok /health -> 200, version 35e3c9b1b05936714b57910997d1d84e58e9a63d
+ok /ready -> 200, database true, records_count 20
+ok /v1/documents?limit=1 -> 200
+Smoke test passed
+```
+
+### Monitoring
+
+- UptimeRobot monitors /health every 5 minutes.
+- Email alerts enabled.
+- HEAD request support added to /health.
+- Verified HEAD /health returns HTTP 200.
+- UptimeRobot monitor recovered and shows UP.
+
+### Secrets
+
+- DATABASE_URL: GitHub Actions secret and Render environment variable.
+- RENDER_DEPLOY_HOOK: GitHub Actions secret only.
+- UptimeRobot monitor-specific key used for the README badge; value not recorded.
+
+### First-request performance
+
+- An always-on deployment or warm-up strategy can help reduce cold-start latency.
+
+
+## D05 - CI/CD and going live
+
+- Live URL: https://dpdp-compass.onrender.com
+- CI run for PR #10: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45345476577
+- First automatic deployment (CD #8): https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45345986371
+- Merge: 12:39:16 PM IST; smoke test passed: 12:41:18 PM IST; lead time: 2 minutes 2 seconds.
+
+### Smoke test output
+
+```text
+ok /health -> 200, version 35e3c9b1b05936714b57910997d1d84e58e9a63d
+ok /ready -> 200, database true, records_count 20
+ok /v1/documents?limit=1 -> 200
+Smoke test passed
+```
+
+### Monitoring
+
+- UptimeRobot monitors /health every 5 minutes.
+- Email alerts enabled.
+- HEAD request support added to /health.
+- Verified HEAD /health returns HTTP 200.
+- UptimeRobot monitor recovered and shows UP.
+
+### Secrets
+
+- DATABASE_URL: GitHub Actions secret and Render environment variable.
+- RENDER_DEPLOY_HOOK: GitHub Actions secret only.
+- UptimeRobot monitor-specific key used for the README badge; value not recorded.
+
+### First-request performance
+
+- An always-on deployment or warm-up strategy can help reduce cold-start latency.
+
+### Rollback drill
+
+- Status: Pending.
+- Rollback SHA and timing: Pending.
+- Roll-forward SHA and timing: Pending.
