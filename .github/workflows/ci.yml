@@ -108,5 +108,7 @@ jobs:
             ${{ env.IMAGE }}:main
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Docker pull image
+        run: docker pull ghcr.io/shobika-senthilkumar/prince28-law09-dpdp-compass:main
       - name: Docker image history
         run: docker history --no-trunc ghcr.io/shobika-senthilkumar/prince28-law09-dpdp-compass:main
