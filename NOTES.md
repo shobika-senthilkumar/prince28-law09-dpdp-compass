@@ -1,4 +1,4 @@
-**# Day 3 Notes — PostgreSQL Integration**
+**# Day 3 Notes â€” PostgreSQL Integration**
 
 **## 1. Database**
 
@@ -106,7 +106,7 @@ Normal --prune run with no stale records:
 records=20 inserted=0 updated=0 unchanged=20 deleted=0
 \`\`\`
 
-**# Day 4 Notes — Docker, Tests and Coverage**
+**# Day 4 Notes â€” Docker, Tests and Coverage**
 
 **## 1. Tests**
 
@@ -150,17 +150,17 @@ The repository contains separate unit and integration test suites.
 
 \`\`\`text
 tests/
-├── conftest.py
-├── test_api.py
-├── test_db_integration.py
-├── integration/
-│   ├── conftest.py
-│   └── test_api_integration.py
-└── unit/
-    ├── conftest.py
-    ├── test_health.py
-    ├── test_loader.py
-    └── test_repository.py
+â”œâ”€â”€ conftest.py
+â”œâ”€â”€ test_api.py
+â”œâ”€â”€ test_db_integration.py
+â”œâ”€â”€ integration/
+â”‚   â”œâ”€â”€ conftest.py
+â”‚   â””â”€â”€ test_api_integration.py
+â””â”€â”€ unit/
+    â”œâ”€â”€ conftest.py
+    â”œâ”€â”€ test_health.py
+    â”œâ”€â”€ test_loader.py
+    â””â”€â”€ test_repository.py
 \`\`\`
 
 ## 5. Integration Tests
@@ -302,6 +302,11 @@ Smoke test passed
 
 ### Rollback drill
 
-- Status: Pending.
-- Rollback SHA and timing: Pending.
-- Roll-forward SHA and timing: Pending.
+- Status: Completed; rollback and roll-forward were both manually verified through /health.
+- The original PR #1 merge SHA 8f929d83c6182ed56174152bd47646379cb74594 had no published GHCR image. Render rejected that deployment request with HTTP 400, so it was not used as the rollback target.
+- Rollback target: 2bc6bebccc611fb5a7022787916fa66d69d3d70a (published image). CD run #14: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45367461647
+- Rollback workflow started: 15:10:42 IST, 24 November 2026. The automatic smoke test initially saw the previous live SHA; a later direct /health check confirmed 2bc6bebccc611fb5a7022787916fa66d69d3d70a.
+- Roll-forward target: 58654368e81a355000d373a2a11dbebad3375c9e (current main). CD run #15: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45368417988
+- Roll-forward workflow started: 15:16:47 IST, 24 November 2026. The automatic smoke test initially saw the previous live SHA; a later direct /health check confirmed 58654368e81a355000d373a2a11dbebad3375c9e.
+- Exact times of the later manual verification requests were not captured, so rollout durations are not claimed.
+- The database schema remained at the latest migrated revision. Manual workflow_dispatch skips the migration step, so this drill changed the application image without downgrading the database schema.
