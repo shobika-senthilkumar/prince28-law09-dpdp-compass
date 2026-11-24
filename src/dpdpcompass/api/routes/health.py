@@ -10,7 +10,7 @@ from dpdpcompass.db.session import SessionLocal
 router = APIRouter()
 
 
-@router.get("/health")
+@router.api_route("/health", methods=["GET", "HEAD"])
 async def health() -> dict[str, str]:
     """Return application health and deployed version."""
     settings = get_settings()
