@@ -1,5 +1,14 @@
 # DPDP Compass
 
+[![CI](https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/workflows/ci.yml)
+[![Live](https://img.shields.io/website?url=https%3A%2F%2Fdpdp-compass.onrender.com%2Fhealth)](https://dpdp-compass.onrender.com/health)
+[![Uptime (30 days)](https://img.shields.io/uptimerobot/ratio/m804789194-29ed3f823b7fe021fdc8b9d8?label=Uptime%20(30%20days))](https://dashboard.uptimerobot.com/)
+
+**Status:** Week 1 complete · live at https://dpdp-compass.onrender.com
+
+**Live:** https://dpdp-compass.onrender.com · [API docs](https://dpdp-compass.onrender.com/docs)
+
+
 Practical compliance guidance for Indian startups navigating the Digital Personal Data Protection Act 2023 and the DPDP Rules 2025.
 
 ## Who It Is For
