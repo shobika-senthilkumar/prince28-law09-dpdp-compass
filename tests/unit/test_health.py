@@ -220,3 +220,12 @@ def test_get_document_not_found(fake_repo):
         assert "was not found" in response.json()["detail"]
     finally:
         app.dependency_overrides.clear()
+
+
+def test_health_accepts_head():
+    client = TestClient(app)
+
+    response = client.head("/health")
+
+    assert response.status_code == 200
+    assert response.content == b""
