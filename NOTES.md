@@ -1,4 +1,4 @@
-**# Day 3 Notes â€” PostgreSQL Integration**
+**# Day 3 Notes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â PostgreSQL Integration**
 
 **## 1. Database**
 
@@ -106,7 +106,7 @@ Normal --prune run with no stale records:
 records=20 inserted=0 updated=0 unchanged=20 deleted=0
 \`\`\`
 
-**# Day 4 Notes â€” Docker, Tests and Coverage**
+**# Day 4 Notes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Docker, Tests and Coverage**
 
 **## 1. Tests**
 
@@ -150,17 +150,17 @@ The repository contains separate unit and integration test suites.
 
 \`\`\`text
 tests/
-â”œâ”€â”€ conftest.py
-â”œâ”€â”€ test_api.py
-â”œâ”€â”€ test_db_integration.py
-â”œâ”€â”€ integration/
-â”‚   â”œâ”€â”€ conftest.py
-â”‚   â””â”€â”€ test_api_integration.py
-â””â”€â”€ unit/
-    â”œâ”€â”€ conftest.py
-    â”œâ”€â”€ test_health.py
-    â”œâ”€â”€ test_loader.py
-    â””â”€â”€ test_repository.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_api.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_db_integration.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ integration/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_api_integration.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ unit/
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_health.py
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_loader.py
+    ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_repository.py
 \`\`\`
 
 ## 5. Integration Tests
@@ -310,3 +310,51 @@ Smoke test passed
 - Roll-forward workflow started: 15:16:47 IST, 24 November 2026. The automatic smoke test initially saw the previous live SHA; a later direct /health check confirmed 58654368e81a355000d373a2a11dbebad3375c9e.
 - Exact times of the later manual verification requests were not captured, so rollout durations are not claimed.
 - The database schema remained at the latest migrated revision. Manual workflow_dispatch skips the migration step, so this drill changed the application image without downgrading the database schema.
+
+### D05 stretch tasks
+
+#### 1. Human approval gate
+
+- Enabled required reviewers for the GitHub production environment.
+- Configured shobika-senthilkumar as a reviewer with self-review permitted.
+- CD #17 for the older commit did not complete successfully; the latest CD #18 completed successfully after the production review gate.
+- CD #18: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45575052254
+- Why this gate is useful: production changes involving student personal data, authentication, or database migrations benefit from a final human review. For low-risk documentation changes, the added delay may not be worthwhile.
+
+#### 2. Dependabot
+
+- Added .github/dependabot.yml for the github-actions ecosystem.
+- Update interval: weekly.
+- Merged in PR #14: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/pull/14
+
+#### 3. Pre-commit in CI
+
+- Added the Run pre-commit step to the lint and test job in .github/workflows/ci.yml.
+- Command: uv run pre-commit run --all-files
+- Merged in PR #15: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/pull/15
+- Main CI run #40 passed, including the pre-commit step and build image job.
+- CI run: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45574849144
+
+#### 4. Lead-time measurement
+
+Merge-to-smoke-test-passed times for the first three automatic CD runs (24 November 2026, IST):
+
+| PR / CD run | Merge time | Smoke test passed | Lead time |
+| --- | --- | --- | --- |
+| PR #10 / CD #8 | 12:39:16.000 | 12:41:18.797 | 2m 02.797s |
+| PR #11 / CD #9 | 13:59:53.000 | 14:02:21.042 | 2m 28.042s |
+| PR #12 / CD #10 | 14:56:52.000 | 14:58:32.378 | 1m 40.378s |
+
+- Average merge-to-smoke-test-passed time: 2m 03.739s.
+- The slowest observed step was Smoke test the live URL, which took about 18.9 seconds in CD #8 while Render was switching versions.
+- CD #8: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45345986371
+- CD #9: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45356955141
+- CD #10: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45365500063
+- Measurement caveat: CD #9 and CD #10 smoke tests passed while /health still reported the previous deployed SHA. Subsequent direct /health checks confirmed the intended versions. Therefore, these figures measure merge-to-smoke-test completion, not exact time until the new SHA first became live.
+
+#### Final stretch deployment verification
+
+- Latest main commit: c66247f16ec4a4e89dae987267b3785aca86ec95.
+- CD #18 completed successfully: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45575052254
+- Final manual /health verification returned version c66247f16ec4a4e89dae987267b3785aca86ec95.
+- /ready returned 200 with database true and 20 records; the documents endpoint returned 200.
