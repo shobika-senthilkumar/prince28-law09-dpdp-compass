@@ -9,6 +9,7 @@ repos:
       - id: check-toml
       - id: check-added-large-files
         args: ["--maxkb=500"]
+        exclude: ^data/manifest\.jsonl$  # Manifest can exceed 500 KB.
       - id: detect-private-key
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -22,4 +23,4 @@ repos:
     rev: v1.5.0
     hooks:
       - id: detect-secrets
-        exclude: ^(uv\.lock|alembic/versions/.*)$
+        exclude: ^(uv\.lock|alembic/versions/.*|data/manifest\.jsonl)$  # SHA-256 hashes can trigger false positives.
