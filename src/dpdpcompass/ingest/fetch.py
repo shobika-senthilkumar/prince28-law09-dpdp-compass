@@ -319,9 +319,19 @@ async def _download(
     src: Source,
     root: Path,
     raw_dir: Path,
+    *,
+    etag: str | None = None,
 ) -> dict:
     """Stream one document to a temporary file, then rename it."""
-    async with client.stream("GET", src.url) as response:
+    headers = {"If-None-Match": etag} if etag else None
+    async with client.stream("GET", src.url, headers=headers) as response:
+        if response.status_code == 304:
+            return {
+                "status": "not_modified",
+                "http_status": 304,
+                "etag": response.headers.get("ETag") or etag,
+            }
+
         if response.status_code != 200:
             raise DownloadError(
                 f"HTTP {response.status_code}",
@@ -372,6 +382,7 @@ async def fetch_one(
     slots: asyncio.Semaphore,
     max_attempts: int,
     sleep: Sleep,
+    previous: dict | None = None,
 ) -> dict:
     """Download one source with robots checks and selective retries."""
     if max_attempts < 1:
@@ -404,7 +415,25 @@ async def fetch_one(
             async with slots:
                 await gate.wait(host, crawl_delay)
                 async with asyncio.timeout(ATTEMPT_TIMEOUT):
-                    fields = await _download(client, src, root, raw_dir)
+                    fields = await _download(
+                        client,
+                        src,
+                        root,
+                        raw_dir,
+                        etag=(previous or {}).get("etag"),
+                    )
+
+            if fields.get("status") == "not_modified":
+                return (
+                    record
+                    | (previous or {})
+                    | fields
+                    | {
+                        "status": "downloaded",
+                        "attempts": attempt,
+                        "fetched_at": now_iso(),
+                    }
+                )
 
             return (
                 record

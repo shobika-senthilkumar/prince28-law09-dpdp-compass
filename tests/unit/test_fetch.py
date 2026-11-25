@@ -239,6 +239,39 @@ async def test_download_writes_file_and_hash(tmp_path):
 
 
 @pytest.mark.asyncio
+async def test_download_sends_if_none_match_and_handles_304(tmp_path):
+    seen = {}
+
+    def handler(request):
+        seen["if-none-match"] = request.headers.get("If-None-Match")
+        return httpx.Response(
+            304,
+            headers={"ETag": '"test-etag"'},
+        )
+
+    src = Source(
+        "https://example.org/act.pdf",
+        "test",
+        "Public notice",
+        "Test Act",
+    )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        result = await fetch_module._download(
+            client,
+            src,
+            tmp_path,
+            tmp_path / "data" / "raw",
+            etag='"test-etag"',
+        )
+
+    assert seen["if-none-match"] == '"test-etag"'
+    assert result["status"] == "not_modified"
+    assert result["http_status"] == 304
+    assert result["etag"] == '"test-etag"'
+
+
+@pytest.mark.asyncio
 async def test_download_removes_part_file_when_too_large(
     tmp_path,
     monkeypatch,
