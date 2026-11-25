@@ -358,3 +358,51 @@ Merge-to-smoke-test-passed times for the first three automatic CD runs (24 Novem
 - CD #18 completed successfully: https://github.com/shobika-senthilkumar/prince28-law09-dpdp-compass/actions/runs/45575052254
 - Final manual /health verification returned version c66247f16ec4a4e89dae987267b3785aca86ec95.
 - /ready returned 200 with database true and 20 records; the documents endpoint returned 200.
+
+# Day 6 Notes — Corpus Fetch & Capacity
+
+## Licence / terms checks
+- Reviewed the source register in `data/sources.csv`.
+- Official MeitY legal documents are government-hosted Gazette material; no blanket full-text reuse permission was verified.
+- India Code content is government-hosted; no explicit full-text reuse permission was verified.
+- PIB material may be reproduced with prominent attribution under PIB policy, subject to its stated exclusions.
+- MeitY overview material is official government information; no blanket reuse licence was verified.
+- Downloader does not bypass robots.txt, HTTP 403 restrictions, or access controls.
+
+## Robots / access findings
+- Automated requests to the official MeitY/PIB source URLs returned HTTP 403.
+- Per the Build Lab guidance, the downloader does not attempt to bypass the block.
+- Required documents were collected manually from the official sources and registered using `register_manual.py`.
+
+## Kill / resume verification
+- Run 1: interrupted with Ctrl+C; process ended with `KeyboardInterrupt`.
+- Run 2: resumed and completed the test download successfully.
+- Run 3: completed with `downloaded=0 skipped=1`.
+- Verified that no `.part` files remained after interruption.
+- The resume test used a controlled local slow HTTP test file so interruption and resume behavior could be verified reliably.
+
+## Current corpus
+- 5 official PDF documents downloaded and registered.
+- DPDP Act 2023
+- DPDP Rules 2025 — G.S.R. 846(E)
+- Commencement notification — G.S.R. 843(E)
+- Data Protection Board establishment — G.S.R. 844(E)
+- Data Protection Board members — G.S.R. 845(E)
+
+## Capacity measurements
+- Current PDF count: 5
+- Current PDF pages: 68
+- Extracted characters: 191,402
+- Estimated tokens: 47,851
+- Estimated embedding storage: 280.38 MiB
+- 1,000-page estimate: 2,814,735 characters
+- 1,000-page estimate: 703,684 tokens
+- 1,000-page embedding estimate: 4.03 GiB
+
+## Problem and solution
+Problem: official source URLs returned HTTP 403 during automated collection, preventing the downloader from retrieving the corpus directly.
+
+Solution: follow the Build Lab's compliant fallback path by manually downloading the official documents and registering them with the manifest, while keeping the automated downloader capable of robots checks, retries, atomic `.part` handling, resumable execution, and successful-download skipping.
+
+## Known gap
+- MeitY FAQs are still a collection gap and must be added before claiming the full start target is complete.
