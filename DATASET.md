@@ -1,62 +1,69 @@
-﻿# DPDP Compass Dataset
+# DPDP Compass Dataset
 
 ## Current Corpus
 
-The Day 6 corpus contains five manually collected official MeitY PDF documents.
+The Day 6 corpus contains 13 successfully downloaded PDF documents: five official MeitY documents collected manually and eight DSCI FAQ publications collected as a documented fallback for the MeitY FAQ target.
 
-| Document | Pages |
-|---|---:|
-| Digital Personal Data Protection Act 2023 | 21 |
-| Digital Personal Data Protection Rules 2025 - GSR 846(E) | 41 |
-| DPDP Act enforcement timeline - GSR 843(E) | 2 |
-| Establishment of the Data Protection Board - GSR 844(E) | 2 |
-| Number of members in the Data Protection Board - GSR 845(E) | 2 |
-| **Total** | **68** |
+| Document | Source | Licence / Terms | Pages |
+|---|---|---|---:|
+| Digital Personal Data Protection Act 2023 | MeitY | Official Gazette text hosted by MeitY; full-text reuse permission not verified. Retain attribution, link to source and use limited quotations pending confirmation. | 21 |
+| Digital Personal Data Protection Rules 2025 - GSR 846(E) | MeitY | Official Gazette text hosted by MeitY; full-text reuse permission not verified. Retain attribution, link to source and use limited quotations pending confirmation. | 41 |
+| DPDP Act enforcement timeline - GSR 843(E) | MeitY | Official Gazette notification hosted by MeitY; full-text reuse permission not verified. Cite the GSR number and link; use limited quotations pending confirmation. | 2 |
+| Establishment of the Data Protection Board - GSR 844(E) | MeitY | Official Gazette notification hosted by MeitY; full-text reuse permission not verified. Cite the GSR number and link; use limited quotations pending confirmation. | 2 |
+| Number of members in the Data Protection Board - GSR 845(E) | MeitY | Official Gazette notification hosted by MeitY; full-text reuse permission not verified. Cite the GSR number and link; use limited quotations pending confirmation. | 2 |
+| FAQs on Data Protection Board | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 4 |
+| FAQs on Reasonable Security Safeguards | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 3 |
+| FAQs on Data Fiduciary and Significant Data Fiduciary | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 4 |
+| FAQs on Data Retention and Data Erasure | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 2 |
+| FAQs on Cross Border Flow of Data | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 6 |
+| FAQs on Consent Management | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 4 |
+| FAQs on Children and Persons with Disabilities | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 3 |
+| FAQs on Notice Management | DSCI | DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source. | 6 |
+| **Total** | | | **100** |
 
 ## Source Policy
 
-The corpus uses official government-hosted sources. Source URLs, licence/terms notes, and document titles are maintained in `data/sources.csv`.
+The corpus uses official government-hosted sources for the primary legal documents and DSCI publications for the documented FAQ fallback. Source URLs, licence/terms notes, and document titles are maintained in `data/sources.csv`.
 
 Where full-text reuse permission has not been explicitly verified, the project retains attribution and source links and uses limited quotations pending confirmation.
 
 ## Collection Method
 
-The five current documents were collected manually because automated requests to the official MeitY URLs returned HTTP 403.
+The five primary MeitY documents were collected manually because automated requests to the official MeitY URLs returned HTTP 403. The project does not attempt to bypass those access controls.
 
-The project does not attempt to bypass those access controls.
+The eight DSCI FAQ documents were downloaded through the normal downloader from their publicly listed direct PDF URLs.
 
-Each manually collected document is registered in `data/manifest.jsonl` with its source URL, local path, byte size, SHA-256 checksum, collection method, and timestamp.
+Each downloaded document is registered in `data/manifest.jsonl` with its source URL, local path, byte size, SHA-256 checksum, collection method, and timestamp.
+
+The MeitY FAQ target could not be retrieved through the available official MeitY access route, so the eight DSCI thematic FAQ publications were added as a documented fallback rather than being represented as MeitY documents.
 
 ## Current Capacity
 
-- 68 PDF pages
-- 191,402 extracted characters
-- Approximately 47,851 estimated tokens
-- Approximately 280.38 MiB estimated embedding storage
+- 100 PDF pages
+- 234,908 extracted characters
+- Approximately 58,727 estimated tokens
+- Approximately 344.10 MiB estimated embedding storage
 
 ### 1,000-Page Estimate
 
-- Approximately 703,684 estimated tokens
-- Approximately 4.03 GiB estimated embedding storage
+- Approximately 2,349,080 estimated characters
+- Approximately 587,270 estimated tokens
+- Approximately 3.36 GiB estimated embedding storage
 
 These estimates are generated by `scripts/dataset_report.py`.
 
 ## Duplicate Content Check
 
-The duplicate detector compared SHA-256 hashes across the five downloaded documents.
+The duplicate detector compared SHA-256 hashes across the current downloaded corpus.
 
-- Downloaded documents: 5
-- Unique SHA-256 hashes: 5
+- Downloaded documents: 13
+- Unique SHA-256 hashes: 13
 - Duplicate content groups: 0
-- Documents downloaded twice under different URLs: 0
-
 ## Known Gaps
-
-The current corpus is smaller than the broader target corpus.
 
 Known gaps include:
 
-- MeitY FAQs
+- Direct MeitY FAQ documents could not be retrieved through the available official access route; DSCI thematic FAQs are documented as the fallback.
 - Additional DPDP-related official explanatory material
 - SPDI Rules 2011
 - Information Technology Act material
@@ -64,7 +71,7 @@ Known gaps include:
 - Data Protection Board notices
 - Broader material needed for a 1,000+ page corpus
 
-Some source URLs also remain represented by earlier automated HTTP 403 failure records in the manifest. Successful manual registrations are recorded separately.
+Five source URLs remain inaccessible to the automated downloader because they return HTTP 403. The project does not attempt to bypass those access controls.
 
 ## Reproducibility
 
@@ -73,3 +80,9 @@ Run:
 `uv run python scripts/dataset_report.py --full-pages 1000`
 
 to regenerate the capacity measurements.
+
+Run:
+
+`uv run python scripts/duplicate_detector.py`
+
+to regenerate the duplicate-content check.
