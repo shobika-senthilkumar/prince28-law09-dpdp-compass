@@ -76,6 +76,26 @@ class DocumentRepository:
 
         return self._to_dict(document)
 
+    def get_page(self, external_id: str, page_no: int) -> dict | None:
+        """Return one page by document external ID and page number."""
+        statement = select(Document).where(Document.external_id == external_id)
+
+        document = self.session.scalar(statement)
+
+        if document is None:
+            return None
+
+        for page in document.pages:
+            if page.page_no == page_no:
+                return {
+                    "id": document.external_id,
+                    "page_no": page.page_no,
+                    "text": page.text,
+                    "headings": page.headings,
+                }
+
+        return None
+
     @staticmethod
     def _to_dict(document: Document) -> dict:
         """Convert a database document to the API response shape."""

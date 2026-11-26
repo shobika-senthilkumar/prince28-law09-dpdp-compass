@@ -87,3 +87,31 @@ def test_pdf_parsers_have_same_basic_contract(tmp_path: Path) -> None:
     assert pypdf_result.metadata["pages"] == 1
     assert "DPDP Compass" in pymupdf_result.text
     assert "DPDP Compass" in pypdf_result.text
+
+
+def test_pdf_ocr_extracts_scanned_page(tmp_path: Path) -> None:
+    import pymupdf
+    from PIL import Image, ImageDraw, ImageFont
+
+    pdf_path = tmp_path / "scanned.pdf"
+    image_path = tmp_path / "scanned.png"
+
+    image = Image.new("RGB", (1200, 400), "white")
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.load_default(size=72)
+    draw.text((80, 120), "DPDP OCR TEST 123", fill="black", font=font)
+    image.save(image_path)
+
+    document = pymupdf.open()
+    page = document.new_page()
+    page.insert_image(page.rect, filename=str(image_path))
+    document.save(pdf_path)
+    document.close()
+
+    result = parse_pdf_pymupdf(pdf_path)
+
+    assert result.metadata["ocr_pages"] == [1]
+    assert result.metadata["scanned_pages"] == [1]
+    assert "DPDP" in result.text
+    assert "OCR" in result.text
+    assert "TEST" in result.text

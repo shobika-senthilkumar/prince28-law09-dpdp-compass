@@ -105,6 +105,25 @@ def document_stats(
     return repository.stats()
 
 
+@router.get("/{record_id}/pages")
+def get_document_page(
+    record_id: str,
+    request: Request,
+    page_no: int = Query(..., ge=1),
+    repository: DocumentRepository = Depends(get_document_repository),  # noqa: B008
+) -> dict:
+    """Return one page from a document."""
+    page = repository.get_page(record_id, page_no)
+
+    if page is None:
+        return not_found_response(
+            request,
+            f"Page '{page_no}' for document '{record_id}' was not found.",
+        )
+
+    return page
+
+
 @router.get("/{record_id}", response_model=Record)
 def get_document(
     record_id: str,

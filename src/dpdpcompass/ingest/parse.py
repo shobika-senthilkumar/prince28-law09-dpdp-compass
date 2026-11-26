@@ -3,8 +3,14 @@ from pathlib import Path
 from typing import Any
 
 import pymupdf
+import pytesseract
 import trafilatura
 from pypdf import PdfReader
+
+tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
+if Path(tesseract_path).exists():
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
 
 class ParseError(Exception):
@@ -80,6 +86,21 @@ def _parse_text(content: str) -> ParsedDoc:
     )
 
 
+def _ocr_page(page: pymupdf.Page, language: str = "eng") -> str:
+    """Render a PDF page and extract text using Tesseract OCR."""
+    pixmap = page.get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False)
+    image = pixmap.tobytes("png")
+
+    from io import BytesIO
+
+    from PIL import Image
+
+    return pytesseract.image_to_string(
+        Image.open(BytesIO(image)),
+        lang=language,
+    ).strip()
+
+
 def parse_pdf_pymupdf(path: Path) -> ParsedDoc:
     """Parse a PDF using PyMuPDF."""
     try:
@@ -89,10 +110,18 @@ def parse_pdf_pymupdf(path: Path) -> ParsedDoc:
 
     pages: list[ParsedPage] = []
     text_parts: list[str] = []
+    ocr_pages: list[int] = []
+    scanned_pages: list[int] = []
 
     try:
         for index, page in enumerate(document):
             text = page.get_text("text").strip()
+
+            if len(text) < 20:
+                scanned_pages.append(index + 1)
+                text = _ocr_page(page)
+                if text:
+                    ocr_pages.append(index + 1)
             text_parts.append(text)
 
             pages.append(
@@ -118,6 +147,8 @@ def parse_pdf_pymupdf(path: Path) -> ParsedDoc:
         metadata={
             "parser": "pymupdf",
             "pages": len(pages),
+            "ocr_pages": ocr_pages,
+            "scanned_pages": scanned_pages,
         },
     )
 

@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
+from dpdpcompass.api.deps import get_document_repository
 from dpdpcompass.api.main import app
 
 client = TestClient(app)
@@ -74,3 +75,50 @@ def test_document_stats():
             "MeitY": 7,
         },
     }
+
+
+def test_document_page():
+    fake_repo = type(
+        "FakeRepo",
+        (),
+        {
+            "get_page": lambda self, external_id, page_no: {
+                "id": external_id,
+                "page_no": page_no,
+                "text": "DPDP Act page text",
+                "headings": ["Chapter 1", "Definitions"],
+            }
+        },
+    )()
+
+    app.dependency_overrides[get_document_repository] = lambda: fake_repo
+    try:
+        response = client.get("/v1/documents/1/pages?page_no=1")
+    finally:
+        app.dependency_overrides.clear()
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["id"] == "1"
+    assert data["page_no"] == 1
+    assert data["text"] == "DPDP Act page text"
+    assert data["headings"] == ["Chapter 1", "Definitions"]
+
+
+def test_document_page_not_found():
+    fake_repo = type(
+        "FakeRepo",
+        (),
+        {"get_page": lambda self, external_id, page_no: None},
+    )()
+
+    app.dependency_overrides[get_document_repository] = lambda: fake_repo
+    try:
+        response = client.get("/v1/documents/1/pages?page_no=999")
+    finally:
+        app.dependency_overrides.clear()
+
+    assert response.status_code == 404
+    data = response.json()
+    assert data["status"] == 404
+    assert "Page '999' for document '1' was not found." in data["detail"]
