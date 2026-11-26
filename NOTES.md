@@ -1,4 +1,4 @@
-﻿**# Day 3 Notes ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â PostgreSQL Integration**
+**# Day 3 Notes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â PostgreSQL Integration**
 
 **## 1. Database**
 
@@ -106,7 +106,7 @@ Normal --prune run with no stale records:
 records=20 inserted=0 updated=0 unchanged=20 deleted=0
 \`\`\`
 
-**# Day 4 Notes ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Docker, Tests and Coverage**
+**# Day 4 Notes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Docker, Tests and Coverage**
 
 **## 1. Tests**
 
@@ -150,17 +150,17 @@ The repository contains separate unit and integration test suites.
 
 \`\`\`text
 tests/
-ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ conftest.py
-ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ test_api.py
-ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ test_db_integration.py
-ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ integration/
-ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ conftest.py
-ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡   ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ test_api_integration.py
-ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ unit/
-    ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ conftest.py
-    ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ test_health.py
-    ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ test_loader.py
-    ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ test_repository.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_api.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_db_integration.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ integration/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_api_integration.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ unit/
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_health.py
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_loader.py
+    ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_repository.py
 \`\`\`
 
 ## 5. Integration Tests
@@ -359,7 +359,7 @@ Merge-to-smoke-test-passed times for the first three automatic CD runs (24 Novem
 - Final manual /health verification returned version c66247f16ec4a4e89dae987267b3785aca86ec95.
 - /ready returned 200 with database true and 20 records; the documents endpoint returned 200.
 
-# Day 6 Notes â€” Corpus Fetch & Capacity
+# Day 6 Notes — Corpus Fetch & Capacity
 
 ## Licence / terms checks
 - Reviewed the source register in `data/sources.csv`.
@@ -384,10 +384,10 @@ Merge-to-smoke-test-passed times for the first three automatic CD runs (24 Novem
 ## Current corpus
 - 5 official PDF documents downloaded and registered.
 - DPDP Act 2023
-- DPDP Rules 2025 â€” G.S.R. 846(E)
-- Commencement notification â€” G.S.R. 843(E)
-- Data Protection Board establishment â€” G.S.R. 844(E)
-- Data Protection Board members â€” G.S.R. 845(E)
+- DPDP Rules 2025 — G.S.R. 846(E)
+- Commencement notification — G.S.R. 843(E)
+- Data Protection Board establishment — G.S.R. 844(E)
+- Data Protection Board members — G.S.R. 845(E)
 
 ## Capacity measurements
 - Current PDF count: 5
@@ -407,13 +407,13 @@ Solution: follow the Build Lab's compliant fallback path by manually downloading
 ## Known gap
 - MeitY FAQs are still a collection gap and must be added before claiming the full start target is complete.
 
-### Stretch 4 — Crawl Statistics
-- Files and size per source: MeitY — 5 files, 7.79 MB; total — 5 files, 7.79 MB.
+### Stretch 4 � Crawl Statistics
+- Files and size per source: MeitY � 5 files, 7.79 MB; total � 5 files, 7.79 MB.
 - Slowest site: unavailable because the manifest does not currently record download duration.
 - Documents needing more than one attempt: 0.
 
-### D07 · Parsing my corpus
-- Files in the manifest: 13 · parsed: 13 · failed: 0 · pages in Postgres: 101
+### D07 � Parsing my corpus
+- Files in the manifest: 13 � parsed: 13 � failed: 0 � pages in Postgres: 101
 - Parsing coverage: 100% of downloaded corpus files
 
 ### Failures by reason
@@ -422,19 +422,32 @@ Solution: follow the Build Lab's compliant fallback path by manually downloading
 | corrupt | 2 | Test-only broken PDF fixtures from parser integration tests; retained as expected test failures. |
 | missing_document | 0 | Resolved by creating/linking corpus Document records from manifest metadata. |
 | error | 0 | No current corpus parsing errors. |
+- The one I fixed: corpus files with `missing_document` failures; reason `missing_document`; fix: created/linking Document records from `data/manifest.jsonl` using the manifest metadata and SHA-256.
+
+### What I saw when I read my parsed pages
+- A page where the heading path is right (document, page, path): `consent-management-v2-acacbb80.pdf`, page 1, heading path retained in the parsed page metadata.
+- Something that came out wrong (document, page, what): Some PDF text extraction lengths differ slightly between PyMuPDF and pypdf, indicating small extraction differences in whitespace or text ordering.
+- A table: The corpus PDFs are primarily text/document PDFs; extracted table content is retained as page text rather than guaranteed Markdown-grid structure.
+
+### My parser choice
+- For PDFs I use **PyMuPDF** because all 10 compared PDFs completed successfully with matching page counts, while PyMuPDF also provides the primary parser path used for the corpus.
+- A kind of document in my corpus that neither parser handles well: PDFs whose important content is image-only/scanned pages require OCR rather than normal text extraction.
 
 ### Parser comparison
-Compared PyMuPDF and pypdf on 10 corpus PDFs. All 10 had matching page counts. Text extraction lengths differed slightly on some files, but both parsers completed successfully.
+Compared PyMuPDF and pypdf on 10 corpus PDFs. The table below records page counts, extracted text lengths, and the parser verdict.
 
 | # | File | PyMuPDF pages | pypdf pages | PyMuPDF chars | pypdf chars | Verdict |
 |---|---|---:|---:|---:|---:|---|
-| 1 | consent-management-v2-acacbb80.pdf | 4 | 4 | 3900 | 3878 | Page counts match |
-| 2 | cross-border-flow-of-data-2b7ef122.pdf | 6 | 6 | 6313 | 6292 | Page counts match |
-| 3 | faq-on-data-fiduciary-and-sde-v2-1441996a.pdf | 4 | 4 | 5704 | 5716 | Page counts match |
-| 4 | faq-on-data-protection-board-ff290f9f.pdf | 4 | 4 | 5697 | 5700 | Page counts match |
-| 5 | faq-on-data-retention-and-data-erasure-v2-6f194862.pdf | 2 | 2 | 2386 | 2391 | Page counts match |
-| 6 | faqs-on-children-and-pwd-personal-data-7ee54f9b.pdf | 3 | 3 | 6472 | 6472 | Page counts match |
-| 7 | notice-management-v2-c54bbfc5.pdf | 6 | 6 | 7726 | 7638 | Page counts match |
-| 8 | reasonable-security-safeguards-b6efa7e6.pdf | 3 | 3 | 5289 | 5269 | Page counts match |
-| 9 | board-establishment-cc217843dc3bcb37b2b05bcc3b4e031f.pdf | 2 | 2 | 2134 | 2046 | Page counts match |
-| 10 | board-members-f6c0837972422cf79d890bfe84cc04d6.pdf | 2 | 2 | 1665 | 1578 | Page counts match |
+| 1 | consent-management-v2-acacbb80.pdf | 4 | 4 | 3900 | 3878 | PyMuPDF preferred; more extracted text |
+| 2 | cross-border-flow-of-data-2b7ef122.pdf | 6 | 6 | 6313 | 6292 | PyMuPDF preferred; more extracted text |
+| 3 | faq-on-data-fiduciary-and-sde-v2-1441996a.pdf | 4 | 4 | 5704 | 5716 | PyMuPDF preferred for consistency; pypdf extracted more text |
+| 4 | faq-on-data-protection-board-ff290f9f.pdf | 4 | 4 | 5697 | 5700 | PyMuPDF preferred for consistency; pypdf extracted more text |
+| 5 | faq-on-data-retention-and-data-erasure-v2-6f194862.pdf | 2 | 2 | 2386 | 2391 | PyMuPDF preferred for consistency; pypdf extracted more text |
+| 6 | faqs-on-children-and-pwd-personal-data-7ee54f9b.pdf | 3 | 3 | 6472 | 6472 | Equivalent extraction; PyMuPDF retained for consistency |
+| 7 | notice-management-v2-c54bbfc5.pdf | 6 | 6 | 7726 | 7638 | PyMuPDF preferred; more extracted text |
+| 8 | reasonable-security-safeguards-b6efa7e6.pdf | 3 | 3 | 5289 | 5269 | PyMuPDF preferred; more extracted text |
+| 9 | cc217843dc3bcb37b2b05bcc3b4e031f.pdf | 2 | 2 | 2134 | 2046 | PyMuPDF preferred; more extracted text |
+| 10 | f6c0837972422cf79d890bfe84cc04d6.pdf | 2 | 2 | 1665 | 1578 | PyMuPDF preferred; more extracted text |
+
+### One thing that went wrong today, and how I fixed it
+- The first full corpus parse recorded `missing_document` failures because the downloaded manifest SHA-256 values did not match the existing document records. I fixed this by creating/linking missing Document rows from the manifest metadata, after which the full corpus parsed successfully: 13/13 files, 0 corpus failures.
