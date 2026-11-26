@@ -411,3 +411,30 @@ Solution: follow the Build Lab's compliant fallback path by manually downloading
 - Files and size per source: MeitY — 5 files, 7.79 MB; total — 5 files, 7.79 MB.
 - Slowest site: unavailable because the manifest does not currently record download duration.
 - Documents needing more than one attempt: 0.
+
+### D07 · Parsing my corpus
+- Files in the manifest: 13 · parsed: 13 · failed: 0 · pages in Postgres: 101
+- Parsing coverage: 100% of downloaded corpus files
+
+### Failures by reason
+| Reason | Files | What I did |
+|---|---:|---|
+| corrupt | 2 | Test-only broken PDF fixtures from parser integration tests; retained as expected test failures. |
+| missing_document | 0 | Resolved by creating/linking corpus Document records from manifest metadata. |
+| error | 0 | No current corpus parsing errors. |
+
+### Parser comparison
+Compared PyMuPDF and pypdf on 10 corpus PDFs. All 10 had matching page counts. Text extraction lengths differed slightly on some files, but both parsers completed successfully.
+
+| # | File | PyMuPDF pages | pypdf pages | PyMuPDF chars | pypdf chars | Verdict |
+|---|---|---:|---:|---:|---:|---|
+| 1 | consent-management-v2-acacbb80.pdf | 4 | 4 | 3900 | 3878 | Page counts match |
+| 2 | cross-border-flow-of-data-2b7ef122.pdf | 6 | 6 | 6313 | 6292 | Page counts match |
+| 3 | faq-on-data-fiduciary-and-sde-v2-1441996a.pdf | 4 | 4 | 5704 | 5716 | Page counts match |
+| 4 | faq-on-data-protection-board-ff290f9f.pdf | 4 | 4 | 5697 | 5700 | Page counts match |
+| 5 | faq-on-data-retention-and-data-erasure-v2-6f194862.pdf | 2 | 2 | 2386 | 2391 | Page counts match |
+| 6 | faqs-on-children-and-pwd-personal-data-7ee54f9b.pdf | 3 | 3 | 6472 | 6472 | Page counts match |
+| 7 | notice-management-v2-c54bbfc5.pdf | 6 | 6 | 7726 | 7638 | Page counts match |
+| 8 | reasonable-security-safeguards-b6efa7e6.pdf | 3 | 3 | 5289 | 5269 | Page counts match |
+| 9 | board-establishment-cc217843dc3bcb37b2b05bcc3b4e031f.pdf | 2 | 2 | 2134 | 2046 | Page counts match |
+| 10 | board-members-f6c0837972422cf79d890bfe84cc04d6.pdf | 2 | 2 | 1665 | 1578 | Page counts match |
