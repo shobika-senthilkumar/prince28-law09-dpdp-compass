@@ -111,6 +111,7 @@ def test_pdf_ocr_extracts_scanned_page(tmp_path: Path) -> None:
     result = parse_pdf_pymupdf(pdf_path)
 
     assert result.metadata["ocr_pages"] == [1]
+    assert result.metadata["scanned_pages"] == [1]
     assert "DPDP" in result.text
     assert "OCR" in result.text
     assert "TEST" in result.text

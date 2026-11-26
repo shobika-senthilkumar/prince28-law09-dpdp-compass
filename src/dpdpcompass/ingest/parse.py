@@ -108,12 +108,14 @@ def parse_pdf_pymupdf(path: Path) -> ParsedDoc:
     pages: list[ParsedPage] = []
     text_parts: list[str] = []
     ocr_pages: list[int] = []
+    scanned_pages: list[int] = []
 
     try:
         for index, page in enumerate(document):
             text = page.get_text("text").strip()
 
             if len(text) < 20:
+                scanned_pages.append(index + 1)
                 text = _ocr_page(page)
                 if text:
                     ocr_pages.append(index + 1)
@@ -143,6 +145,7 @@ def parse_pdf_pymupdf(path: Path) -> ParsedDoc:
             "parser": "pymupdf",
             "pages": len(pages),
             "ocr_pages": ocr_pages,
+            "scanned_pages": scanned_pages,
         },
     )
 

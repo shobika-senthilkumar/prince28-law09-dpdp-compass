@@ -59,6 +59,13 @@ The duplicate detector compared SHA-256 hashes across the current downloaded cor
 - Downloaded documents: 13
 - Unique SHA-256 hashes: 13
 - Duplicate content groups: 0
+## Parser Coverage
+
+- PDF parsing is performed page by page using PyMuPDF.
+- Pages with fewer than 20 extracted text characters are marked as scanned in scanned_pages metadata.
+- Tesseract OCR is applied to detected scanned pages, with successfully OCR-processed pages recorded in ocr_pages.
+- OCR coverage is validated by an automated scanned-PDF test.
+
 ## Known Gaps
 
 Known gaps include:
