@@ -98,7 +98,7 @@ def test_pdf_ocr_extracts_scanned_page(tmp_path: Path) -> None:
 
     image = Image.new("RGB", (1200, 400), "white")
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype(r"C:\Windows\Fonts\arial.ttf", 72)
+    font = ImageFont.load_default(size=72)
     draw.text((80, 120), "DPDP OCR TEST 123", fill="black", font=font)
     image.save(image_path)
 

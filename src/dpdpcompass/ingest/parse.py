@@ -7,7 +7,10 @@ import pytesseract
 import trafilatura
 from pypdf import PdfReader
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
+if Path(tesseract_path).exists():
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
 
 class ParseError(Exception):
