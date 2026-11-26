@@ -93,3 +93,5 @@ Run:
 `uv run python scripts/duplicate_detector.py`
 
 to regenerate the duplicate-content check.
+
+Parsing coverage: 100% of files
