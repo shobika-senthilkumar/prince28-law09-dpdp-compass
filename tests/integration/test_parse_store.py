@@ -44,6 +44,9 @@ def test_store_parsed_document(db_session, tmp_path: Path) -> None:
     assert "DPDP Compass parser test" in stored_page.text
     assert stored_page.headings == ["Test Document"]
 
+    db_session.delete(document)
+    db_session.commit()
+
 
 def test_store_parse_failure(db_session, tmp_path: Path) -> None:
     path = tmp_path / "broken.pdf"
@@ -123,3 +126,6 @@ def test_store_multiple_parsed_pages(db_session, tmp_path: Path) -> None:
     assert "Second page content" in pages[1].text
     assert pages[0].headings == ["Introduction"]
     assert pages[1].headings == ["Conclusion"]
+
+    db_session.delete(document)
+    db_session.commit()
