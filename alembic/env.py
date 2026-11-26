@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
+from dpdpcompass.db import models  # noqa: F401
 from dpdpcompass.db.base import Base
 
 load_dotenv()

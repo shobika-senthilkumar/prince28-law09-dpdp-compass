@@ -114,9 +114,33 @@ class Page(Base):
     )
     page_no: Mapped[int] = mapped_column(Integer, nullable=False)
     text: Mapped[str] = mapped_column(Text, nullable=False)
+    headings: Mapped[list[str]] = mapped_column(
+        JSONB,
+        server_default="[]",
+        nullable=False,
+    )
 
     document: Mapped[Document] = relationship(
         back_populates="pages",
     )
 
     __table_args__ = (UniqueConstraint("doc_id", "page_no"),)
+
+
+class ParseFailure(Base):
+    """A raw file that could not be parsed."""
+
+    __tablename__ = "parse_failures"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    path: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    source_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    reason: Mapped[str] = mapped_column(String(40), nullable=False)
+    detail: Mapped[str | None] = mapped_column(Text, nullable=True)
+    attempts: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    last_attempt_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
