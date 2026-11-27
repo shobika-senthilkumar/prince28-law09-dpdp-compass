@@ -344,3 +344,17 @@ async def test_open_circuit_blocks_provider_during_cooldown(no_record):
     assert reply.provider == "groq"
     assert primary.calls == 0
     assert fallback.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_primary_failure_falls_back_to_groq(no_record):
+    primary = FakeLLM("gemini", failures=2)
+    fallback = FakeLLM("groq", responses=["fallback answer"])
+
+    gateway = LLMGateway([primary, fallback], max_attempts=2)
+
+    reply = await gateway.generate("hello")
+
+    assert reply.provider == "groq"
+    assert reply.text == "fallback answer"
+    assert reply.fallback_used is True
