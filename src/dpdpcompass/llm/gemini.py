@@ -1,4 +1,6 @@
+import json
 import time
+from collections.abc import AsyncIterator
 
 import httpx
 
@@ -57,3 +59,50 @@ class GeminiProvider:
             tokens_out=usage.get("completion_tokens", 0),
             latency_ms=int((time.perf_counter() - started) * 1000),
         )
+
+    async def stream(self, prompt: str) -> AsyncIterator[str]:
+        """Stream response text chunks from Gemini."""
+        try:
+            async with (
+                httpx.AsyncClient(timeout=self.timeout) as client,
+                client.stream(
+                    "POST",
+                    f"{self.base_url}/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {self.api_key}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": self.model,
+                        "messages": [
+                            {"role": "user", "content": prompt},
+                        ],
+                        "stream": True,
+                    },
+                ) as response,
+            ):
+                if response.status_code != 200:
+                    await response.aread()
+                    raise LLMError(f"Gemini request failed: HTTP {response.status_code}")
+
+                async for line in response.aiter_lines():
+                    if not line.startswith("data:"):
+                        continue
+
+                    payload = line[5:].strip()
+
+                    if payload == "[DONE]":
+                        return
+
+                    try:
+                        data = json.loads(payload)
+                    except json.JSONDecodeError:
+                        continue
+
+                    for choice in data.get("choices", []):
+                        piece = choice.get("delta", {}).get("content") or ""
+                        if piece:
+                            yield piece
+
+        except httpx.HTTPError as exc:
+            raise LLMError(f"Gemini stream failed: {exc}") from exc

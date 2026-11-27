@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from dpdpcompass.api.middleware import request_middleware
+from dpdpcompass.api.routes.chat import router as chat_router
 from dpdpcompass.api.routes.documents import router as documents_router
 from dpdpcompass.api.routes.health import router as health_router
 from dpdpcompass.config import get_settings
@@ -22,6 +23,7 @@ def create_app() -> FastAPI:
 
     app.include_router(health_router)
     app.include_router(documents_router)
+    app.include_router(chat_router)
 
     return app
 
