@@ -17,12 +17,14 @@ async def request_middleware(request: Request, call_next):
 
     try:
         response = await call_next(request)
-    except Exception:
+    except Exception as exc:
         logger.exception(
-            "Unhandled request error: %s %s request_id=%s",
+            "Unhandled request error: %s %s request_id=%s error_type=%s error=%r",
             request.method,
             request.url.path,
             request_id,
+            type(exc).__name__,
+            exc,
         )
 
         return JSONResponse(
