@@ -1,4 +1,5 @@
-﻿# DPDP Compass: official source register
+# DPDP Compass: official source register
+# D06 fallback: official MeitY DPDP FAQ documents were not retrievable through the available MeitY access route (HTTP 403). These DSCI FAQ publications cover the DPDP Act 2023 and DPDP Rules 2025 and are used as the documented fallback source.
 # Recheck source terms and robots.txt before each future crawl.
 url,source,licence,title
 https://www.meity.gov.in/static/uploads/2024/02/Digital-Personal-Data-Protection-Act-2023.pdf,meity,"Official Gazette text hosted by MeitY; full-text reuse permission not verified. Retain attribution, link to source and use limited quotations pending confirmation.","Digital Personal Data Protection Act 2023 - Gazette copy"
@@ -11,6 +12,7 @@ https://www.meity.gov.in/static/uploads/2025/12/3c7ebbae0e5456f493f486e6845df86b
 https://www.meity.gov.in/data-protection-framework,meity,"Official government information page; no blanket reuse licence verified. Retain attribution, link to source and use limited quotations.","MeitY Data Protection Framework overview"
 https://www.pib.gov.in/PressReleasePage.aspx?PRID=2190014&lang=1&reg=3,pib,"PIB copyright policy permits free reproduction with prominent attribution and accurate, non-misleading use; third-party material excluded.","Government notifies DPDP Rules to empower citizens and protect privacy"
 https://www.pib.gov.in/PressReleasePage.aspx?PRID=2198217&lang=1&reg=3,pib,"PIB copyright policy permits free reproduction with prominent attribution and accurate, non-misleading use; third-party material excluded.","Simplified DPDP compliance framework for start-ups"
+# D06 fallback: official MeitY DPDP FAQ documents were not retrievable through the available MeitY access route (HTTP 403). These DSCI FAQ publications cover the DPDP Act 2023 and DPDP Rules 2025 and are used as the documented fallback source.
 https://www.dsci.in/files/content/documents/2026/faq-on-data-protection-board.pdf,dsci,"DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source.",FAQs on Data Protection Board
 https://www.dsci.in/files/content/documents/2025/reasonable-security-safeguards.pdf,dsci,"DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source.",FAQs on Reasonable Security Safeguards
 https://www.dsci.in/files/content/documents/2025/faq-on-data-fiduciary-and-sde-v2.pdf,dsci,"DSCI publication; FAQ content on the DPDP Act 2023 and DPDP Rules 2025. Cite and link to the original DSCI source.",FAQs on Data Fiduciary and Significant Data Fiduciary
