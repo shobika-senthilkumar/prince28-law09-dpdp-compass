@@ -1,8 +1,11 @@
+import logging
 import time
 import uuid
 
 from fastapi import Request
 from fastapi.responses import JSONResponse
+
+logger = logging.getLogger(__name__)
 
 
 async def request_middleware(request: Request, call_next):
@@ -15,7 +18,12 @@ async def request_middleware(request: Request, call_next):
     try:
         response = await call_next(request)
     except Exception:
-        elapsed_ms = round((time.perf_counter() - start) * 1000, 2)
+        logger.exception(
+            "Unhandled request error: %s %s request_id=%s",
+            request.method,
+            request.url.path,
+            request_id,
+        )
 
         return JSONResponse(
             status_code=500,
